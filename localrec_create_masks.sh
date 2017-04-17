@@ -1,8 +1,8 @@
 #!/bin/bash
 #
 
-export LOCALREC_SCRIPTS='/Users/lfsmbe/Dropbox/Scripts/github/localrec_control/bin'
-export CHIMERA_EXE='/Applications/Science/Chimera.app/Contents/MacOS/chimera'
+export LOCALREC_SCRIPTS='/home/kmorris/Dropbox/Scripts/github/localrec_control/bin'
+export CHIMERA_EXE='/usr/local/bin/chimera'
 
 echo ''
 echo 'This script is designed to create masks for relion localized reconstruction...'

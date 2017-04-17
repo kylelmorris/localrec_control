@@ -3,18 +3,19 @@
 
 star=run_data.star      # The data star file which points to your whole particle stacks
 subptclno=3             # The number of sub-particles you are extracting i.e. number of masks or cmm vectors
-apix=1.140              # The pixel size the data is at
+apix=1.145              # The pixel size the data is at
 box=384                 # The original particle box size
 length=55               # Distance from centre of whole particle to subparticle in Angstroms i.e. average cmm marker length
-newbox=92               # The size of the box in which sub-particles will be extracted
-project=AP_tN_A1_wt     # The name that will be appended to all sub-particle extractions
-ptcldir=Particles_localrec_cor2_sub_384 # The directory name used for the extracted sub-particles
+newbox=224               # The size of the box in which sub-particles will be extracted
+project=AP_tN_A1_wt_17Apr05     # The name that will be appended to all sub-particle extractions
+ptcldir=Particles_localrec_cor2_224 # The directory name used for the extracted sub-particles
 maskdir=masks		        # mask location, leave empty for no partial singla subtraction
 
 echo "+++ source_relion1.4"
 echo ""
 
 export PATH=${APP_HOME}/relion-1.4/bin:$PATH && export LD_LIBRARY_PATH=${APP_HOME}/relion-1.4/lib:$LD_LIBRARY_PATH
+
 
 if [ -z $1 ] ; then
   i=1
@@ -48,7 +49,7 @@ while [ $i -lt $j ] ; do
   if [[ -e .localrec_${i} ]] ; then
     echo "Skipping localrec subparticle extraction ${i}, already processed"
   else
-    if [[ $maskdir -z ]] ; then
+    if [[ -z $maskdir ]] ; then
       echo "scipion run relion_localized_reconstruction.py --prepare_particles --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/marker${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}"
       scipion run relion_localized_reconstruction.py --prepare_particles --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/marker${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}
     else
