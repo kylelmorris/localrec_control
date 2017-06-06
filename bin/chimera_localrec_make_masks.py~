@@ -129,8 +129,8 @@ for i in range(1,fileno+1):
   rc('set bgTransparency')
   rc('volume # hide')
   rc('volume #3 show')
-  rc('volume #3 save '+str(dir)+'/masks/mask'+str(i)+'_remaining_density.mrc')
-  rc('copy file '+str(dir)+'/images/mask'+str(i)+'_remaining_density.png png')
+  rc('volume #3 save '+str(dir)+'/masks/mask'+str(i)+'_subtracted.mrc')
+  rc('copy file '+str(dir)+'/images/mask'+str(i)+'_subtract.png png')
 
   rc('volume # hide')
   rc('modeldisplay #1')
