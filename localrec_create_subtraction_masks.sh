@@ -32,16 +32,13 @@ fi
 
 ####################################################################################
 # Get organised
-rm -rf cmm_markers
 rm -rf images
 rm -rf masks
-rm -rf bin
 
-mkdir bin
+mkdir -p bin
 echo "Script location for copying: "${LOCALREC_SCRIPTS}
 scp -r ${LOCALREC_SCRIPTS}/bin/chimera_localrec_make_masks.py bin
-scp -r ${LOCALREC_SCRIPTS}/localrec_create_masks.sh bin
-scp -r ${LOCALREC_SCRIPTS}/localrec_create_subparticles.sh bin
+scp -r ${LOCALREC_SCRIPTS}/localrec_create_subtraction_masks.sh bin
 
 #Save these parameters to file for note taking
 printf "localrec_create_masks parameters\n" > localrec_create_masks.out
@@ -56,7 +53,8 @@ echo 'This script is designed to create masks for relion localized reconstructio
 echo 'It uses UCSF Chimera, an autorefine Relion map the same scale as your raw data and fitted PDBs'
 echo ''
 echo 'It assumes that your relion autorefine run_class001.mrc map is ./map'
-echo 'Masks will be created to exclude all density except for the PDBs contained in ./PDB'
+echo 'Softened volumes will be created to include all density except for the PDBs contained in ./PDB'
+echo 'These are suitable for signal subtracion in relion localized reconstruction'
 echo ''
 echo 'Local rec scripts:  '${LOCALREC_SCRIPTS}
 echo 'Chimera executable: '${CHIMERA_EXE}

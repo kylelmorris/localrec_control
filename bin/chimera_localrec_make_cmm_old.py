@@ -68,6 +68,34 @@ fileno = len(fnmatch.filter(os.listdir('.'), '*.pdb'))
 os.chdir("..")
 
 #####################################################################################
+# savemarkers definition
+#####################################################################################
+
+def save_markers(marker_models, path):
+    marker_sets = [m.marker_set for m in marker_models if hasattr(m, 'marker_set')]
+    if len(marker_sets) == 0:
+        from Commands import CommandError
+        raise CommandError('No marker sets specified.')
+    from os.path import expanduser
+    f = open(expanduser(path), 'w')
+    from VolumePath.markerset import save_marker_sets
+    save_marker_sets(marker_sets, f)
+    f.close()
+
+def save_markers_command(cmdname, args):
+    from Commands import parse_arguments, models_arg, string_arg
+    req_args = (('marker_models', models_arg),
+                ('path', string_arg))
+    opt_args = ()
+    kw_args = ()
+    kw = parse_arguments(cmdname, args, req_args, opt_args, kw_args)
+    save_markers(**kw)
+
+
+from Midas.midas_text import addCommand
+addCommand('savemarkers', save_markers_command)
+
+#####################################################################################
 # REQUIRED VARIABLES - edit these to make point the script to PDB's
 #####################################################################################
 
@@ -77,8 +105,7 @@ radius = 25            # Radius around selection to extract density
 origin = ''                     # Insert a volume origin command here if desired
 residuesel = '@ca'              # restrict residues mask extraction
 
-os.mkdir(str(dir)+'/masks')
-os.mkdir(str(dir)+'/images')
+os.mkdir(str(dir)+'/cmm_markers')
 
 #####################################################################################
 # Open map into #0
@@ -89,45 +116,25 @@ rc('open #0 '+str(dir)+'/map/'+str(map))
 rc('volume #0 step 1 '+str(origin))
 
 #####################################################################################
-# Create and save masks by sequential PDB model opening
+# Create cmm markers based on center of mass in PDBs
 #####################################################################################
 
-# Loop through the PDB models to create the volumes for subtraction
+#rc('close #')
+
+# Loop through the PDB models to create the center of mass markers for subparticl location
 for i in range(1,fileno+1):
-  # Load PDB
+  # Load PDBs
   PDB = filelist[i-1]
-  rc('open #1 '+str(dir)+'/PDB/'+str(PDB))
-  # Hide dashed pseudo bonds connecting PDBs
-  rc('select #1')
-  rc('setattr g display false')
-  # scolor and split map, expect subtracted map in #2 and hub in #3
-  rc('scolor #0 zone #1'+str(residuesel)+' range '+str(radius)+' autoUpdate true; ac sm')
-  rc('~select #1')
-  rc('~modeldisplay #1')
+  rc('open #'+str(i)+' '+str(dir)+'/PDB/'+str(PDB))
 
-  # Make cmm markers based on centre of mass of map, now done based on PDB mass as above
-  #rc('measure center #0 mark true radius 10 color red model 2')
-  #rc('measure center #3 mark true radius 10 color blue model 2')
-  #rc('savemarkers #2 '+str(dir)+'/cmm_markers/marker'+str(i)+'.cmm')
+for i in range(1,fileno+1):
+  #measure cmm markers
+  rc('measure center #0 mark true radius 10 color red model 500')
+  rc('measure center #'+str(i)+' mark true radius 10 color blue model 500')
+  rc('savemarkers #500 "'+str(dir)+'/cmm_markers/marker'+str(i)+'.cmm"')
+  rc('close #500')
 
-  # save new volumes and image for diagnostic
-  rc('focus')
-  rc('volume # hide')
-  rc('volume #2 show')
-  rc('volume #2 save '+str(dir)+'/masks/mask'+str(i)+'_subtraction.mrc')    # used to be called subtraction.mrc
-  rc('copy file '+str(dir)+'/images/mask'+str(i)+'_subtraction.png png')
-
-  rc('set bgTransparency')
-  rc('volume # hide')
-  rc('volume #3 show')
-  rc('volume #3 save '+str(dir)+'/masks/mask'+str(i)+'_subparticle.mrc')    # used to be called *_remaining density.mrc
-  rc('copy file '+str(dir)+'/images/mask'+str(i)+'_subparticle.png png')
-
-  rc('volume # hide')
-  rc('modeldisplay #1')
-  rc('copy file '+str(dir)+'/images/mask'+str(i)+'_PDB.png png')
-
-  rc('close #1-3')
+rc('close #')
 
 #close chimera
 rc('stop')
