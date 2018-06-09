@@ -25,14 +25,14 @@ Associated python libraries
 ## Brief protocol
 
 1) Determine your structure in C1 using Relion
-2) Fit a PDB into every repeating subparticle that you wish to extract
+2) Fit a PDB into every repeating subparticle that you wish to extract, this can be any number, the more the better!
 3) Get organised, set up the following directory structure:
 
 ```
 ./map/run_class001.mrc
-./PDB/substructure1.pdb
-./PDB/substructure2.pdb
-./PDB/substructure3.pdb
+./PDB/substructure1.pdb	# Subparticle 1
+./PDB/substructure2.pdb # Subparticle 2
+./PDB/substructure3.pdb	# Subparticle 3
 ```
 
 4) Run localrec_create_cmm.sh, this will create a new directory (cmm_markers) using UCSF Chimera.
@@ -45,8 +45,8 @@ Associated python libraries
 
 6) Edit localrec_create_subpartices.sh header to suit your refinement.
 7) Source Relion-1.4
-8) Run localrec_create_subparticles.sh	# This will use LocalRec to localise the subparticle of interest in each image and extract it
-9) Run localrec_create_substructures.sh	# This will use the LocalRec particles from (8) to reconstruct the subparticle volume
+8) Run localrec_create_subparticles.sh. This will use LocalRec to localise the subparticle of interest in each image and extract it
+9) Run localrec_create_substructures.sh. This will use the LocalRec particles from (8) to reconstruct the subparticle volume
 10) Combine the subparticle star files and perform image processing in the latest version of Relion
 
 ## Notes for signal subtraction
