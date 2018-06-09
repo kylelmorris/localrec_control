@@ -65,4 +65,4 @@ This project is licensed under the GNU GENERAL PUBLIC LICENSE - see the [LICENSE
 
 ## Acknowledgments
 
-* Juha Huiskonen (OPIC-Oxford) and Daniel Asarnow (UCSF) for helpful discussion
+* Juha Huiskonen (University of Helsinki) and Daniel Asarnow (UCSF) for helpful discussion
