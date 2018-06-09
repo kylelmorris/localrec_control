@@ -28,17 +28,20 @@ Associated python libraries
 2) Fit a PDB into every repeating subparticle that you wish to extract
 3) Get organised, set up the following directory structure:
 
+```
 ./map/run_class001.mrc
 ./PDB/substructure1.pdb
 ./PDB/substructure2.pdb
 ./PDB/substructure3.pdb
+```
 
 4) Run localrec_create_cmm.sh, this will create a new directory (cmm_markers) using UCSF Chimera.
 	These vectors describe the location of each subparticle in the C1 map
 5) Get more organised, add the following directories:
-
+```
 ./star/run_data.star	# This is the star file from the C1 refinement (relion1.4 format required)
 ./Extract		# Symbolic link to the Extract directory containing the particles that were used in the C1 refinement
+```
 
 6) Edit localrec_create_subpartices.sh header to suit your refinement.
 7) Source Relion-1.4
@@ -51,8 +54,6 @@ Associated python libraries
 Coming soon!
 
 ## Versioning
-
-v1 - initial commit
 
 ## Authors
 
