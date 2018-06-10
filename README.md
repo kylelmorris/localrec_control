@@ -2,13 +2,15 @@
 
 ## Description
 
-Python and shell scripts for initial stages and control of relion_localized_reconstruction.py for sub-particle extraction in single particle cryo electron microscopy.
+Python and shell scripts for initial stages and control of localised reconstruction for sub-particle extraction in single particle cryo electron microscopy.
 
-These scripts provide a framework for the initial stages of running [relion_localized_reconstruction.py](https://github.com/OPIC-Oxford/localrec).
+These scripts provide a framework controlling [relion_localized_reconstruction.py](https://github.com/OPIC-Oxford/localrec).
 
 ## Motivation
 
-These scripts are designed to control Localised Reconstruction (LocalRec, as described in Ilca 2015). They were developed with a view to extract subparticles from C1 reconstructions of truly pseudo-symmetric complexes. Certain pseudo-symmetric complexes approximately follow the symmetry groups used in cryo-EM refinement. In these cases the repeating unit of the complex that is to be refined lies on a symmetry axis, and so can be refined using standard symmetry imposed refinements or using LocalRec and the symmetry group that describes the subparticle locations fully. Other methods exist that also deal with these cases (Relion symmetry expansion). However, certain truly pseudo-symmetric complexes may have possess some of the repeating subparticles lying off-symmetry-axis, and thus do not obey any symmetry group. In these cases it was found that a C1 refinement of the truly pseudo-symmetric complex could be obtained and LocalRec used to localise and extract repeating subparticles. These are then combined into a single refinement to determine the structure of the pseudo-symmetric subparticle.
+These scripts are designed to control Localised Reconstruction (LocalRec, as described in Ilca 2015). They were developed with a view to extract subparticles from C1 reconstructions of truly pseudo-symmetric complexes. Certain pseudo-symmetric complexes approximately follow the symmetry groups used in cryo-EM refinement. In these cases the repeating unit of the complex that is to be refined lies on a symmetry axis, and so can be refined using standard symmetry imposed refinements or using LocalRec and the symmetry group that describes the subparticle locations fully. Other methods exist that also deal with these cases (Relion symmetry expansion). However, certain truly pseudo-symmetric complexes may contain some of the repeating subparticles lying off-symmetry-axis. In these cases the subparticle does not conform to any symmetry group and is truly pseudo-symmetric, sometimes referred described as having local symmetry. 
+
+In these cases it was found that a C1 refinement of the truly pseudo-symmetric complex could be obtained and subsequently LocalRec used to localise and extract the repeating subparticles in asymmetric space. This can account for the local non-symmetric locations of repeating substructures in a pseudo-symmetric complex. The subparticles can then be combined into a single refinement to determine the structure of the pseudo-symmetric substructure.
 
 ## Prerequisites
 
