@@ -67,6 +67,11 @@ else
   echo "Localrec subparticle reconstruction progress:" > .localrec_vol_progress
 fi
 
+## Timestamp function
+function timestamp() {
+  date +%F_%T
+}
+
 ## Overwrite or not
 if [ $p == "y" ] ; then
   echo "Overwriting preexisting subparticles..."
@@ -105,7 +110,7 @@ while [[ $i -lt $j ]] ; do
     echo "+++ relion_image_handler --angpix $apix --lowpass $res --i ${ptcldir}/localrec_${project}_${i}.mrc"
     relion_image_handler --angpix $apix --lowpass $res --i ${ptcldir}/localrec_${project}_${i}.mrc
     echo ""
-    echo "${ptcldir} localrec_vol_${i}: completed reconstruction" >> .localrec_vol_progress
+    echo "${ptcldir} localrec_vol_${i}: completed reconstruction: $(timestamp)" >> .localrec_vol_progress
   fi
 
   i=$(($i+1))

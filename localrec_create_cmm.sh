@@ -44,7 +44,7 @@ read p
 echo ''
 
 # Create initial masks
-echo 'Using UCSF Chimera to create initial masks selected by PDBs using scolor'
+echo 'Using UCSF Chimera to create cmm marker vectors describing subparticle locations'
 echo ''
 
 scp -r bin/chimera_localrec_make_cmm.py .
@@ -59,6 +59,9 @@ echo $stats
 echo "Average distance between centre of map and centre of PDB, i.e. cmm marker distance is:" > cmm_markers/marker_distance_stats.log
 echo $stats >> cmm_markers/marker_distance_stats.log
 echo 'See log files for individual measurements...'
+
+#Make PDB copy
+scp -r PDB cmm_markers/PDB
 
 echo ''
 echo 'Done!'

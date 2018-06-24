@@ -4,9 +4,9 @@
 subptcli=$1
 
 # The data star file which points to your whole particle stacks
-star=star/run_data_rln1.4.star
+star=star/subtracted/localrec_all.star
 # The number of sub-particles you are extracting i.e. number of masks or cmm vectors
-subptclno=32
+subptclno=28
 # The pixel size the data is at
 apix=1.705
 # The original particle box size
@@ -17,9 +17,9 @@ length=auto
 # The size of the box in which sub-particles will be extracted
 newbox=256
 # The name that will be appended to all sub-particle extractions
-project=CHC_LMB_all_localrec_1761ptcl
+project=CHC_LMB_all_localrec_3393ptcl
 # The directory name used for the extracted sub-particles
-ptcldir=Particles_localrec_cor2_256px_1761ptcl_nopflip
+ptcldir=Particles_localrec_cor2_256px_3393ptcl_nopflip_subtracted
 # mask location, leave empty for no partial singla subtraction
 maskdir=
 
@@ -92,6 +92,11 @@ else
   echo "Localrec subparticle extraction progress:" > .localrec_progress
 fi
 
+## Timestamp function
+function timestamp() {
+  date +%F_%T
+}
+
 ## Overwrite or not
 if [ $p == "y" ] ; then
   echo "Overwriting preexisting subparticles..."
@@ -146,7 +151,7 @@ while [ $i -lt $j ] ; do
       echo "scipion run relion_localized_reconstruction.py --prepare_particles --masked_map ${maskdir}/mask${i}_subtraction_soft.mrc  --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}"
       scipion run relion_localized_reconstruction.py --prepare_particles --masked_map ${maskdir}/mask${i}_subtraction_soft.mrc  --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}
     fi
-    echo "${ptcldir} localrec_subparticles_${i}: completed subparticle extraction" >> .localrec_progress
+    echo "${ptcldir} localrec_subparticles_${i}: completed subparticle extraction: $(timestamp)" >> .localrec_progress
   fi
 
   i=$(($i+1))
@@ -162,6 +167,12 @@ echo "Copy of this script made in subparticle directory: ${ptcldir}"
 scp -r ${star} $ptcldir
 echo ""
 echo "Copy of the star file used for subparticle extraction made in: "
+echo "${ptcldir}"
+
+## Make a copy of the cmm_markers so that there is a record
+scp -r cmm_markers $ptcldir
+echo ""
+echo "Copy of the cmm_markers used for subparticle extraction made in: "
 echo "${ptcldir}"
 
 ## Suggest command for joining star files
