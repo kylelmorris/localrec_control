@@ -86,6 +86,7 @@ origin = ''                     # Insert a volume origin command here if desired
 residuesel = '@ca'              # restrict residues mask extraction
 
 os.mkdir(str(dir)+'/cmm_markers')
+os.mkdir(str(dir)+'/cmm_markers/chimera')
 
 #####################################################################################
 # Open map into #0
@@ -131,5 +132,18 @@ for i in range(1,fileno+1):
 
 rc('close #')
 
-#close chimera
-rc('stop')
+# Gather the number of and names of .cmm files
+os.chdir("cmm_markers")
+filelist = [fn for fn in sorted(os.listdir(".")) if fn.endswith(".cmm")]
+# No of PDB's to sub-volume average the fitted density of
+fileno = len(fnmatch.filter(os.listdir('.'), '*.cmm'))
+os.chdir("..")
+
+#Save session for reference
+rc('open #0 '+str(dir)+'/map/'+str(map))
+rc('volume #0 step 1 transparency 0.5 '+str(origin))
+for i in range(1,fileno+1):
+    cmm = filelist[i-1]
+    rc('open '+str(dir)+'/cmm_markers/'+str(cmm))
+rc('focus')
+rc('save '+str(dir)+'/cmm_markers/chimera/marker_session.py')
