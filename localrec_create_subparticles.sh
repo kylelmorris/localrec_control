@@ -163,7 +163,7 @@ while [ $i -lt $j ] ; do
 
   #Get distance to subparticle from cmm_marker log file
   if [[ $autolength == 1 ]] ; then
-    length=$(cat cmm_markers/logs/marker_${i}_distance.log | grep "minimum distance" | awk '{print $8')
+    length=$(cat cmm_markers/logs/marker_${i}_distance.log | grep "minimum distance" | awk '{print $8}')
     echo ""
     echo "Distance is set to auto, reading distance from cmm log file..."
     echo "Distance to subparticle, length is ${length} for marker_${i}"
