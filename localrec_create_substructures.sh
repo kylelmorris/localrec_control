@@ -4,9 +4,9 @@
 subptcli=$1
 
 # The data star file which points to your whole particle stacks
-star=star/run_data_rln1.4.star
+star=star/subtracted/localrec_all.star
 # The number of sub-particles you are extracting i.e. number of masks or cmm vectors
-subptclno=32
+subptclno=28
 # The pixel size the data is at
 apix=1.705
 # The original particle box size
@@ -17,9 +17,9 @@ length=auto
 # The size of the box in which sub-particles will be extracted
 newbox=256
 # The name that will be appended to all sub-particle extractions
-project=CHC_LMB_all_localrec_1761ptcl
+project=CHC_LMB_all_localrec_3393ptcl
 # The directory name used for the extracted sub-particles
-ptcldir=Particles_localrec_cor2_256px_1761ptcl_nopflip
+ptcldir=Particles_localrec_cor2_256px_3393ptcl_nopflip_subtracted
 # mask location, leave empty for no partial singla subtraction
 maskdir=
 #Original reconstruction resolution (for lowpass filtering final volumes)

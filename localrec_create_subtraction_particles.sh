@@ -37,6 +37,7 @@ fi
 mkdir -p bin
 echo "Script location for copying: "${LOCALREC_SCRIPTS}
 scp -r $0 bin
+scp -r ${LOCALREC_SCRIPTS}/bin/relion_star_2_to_1.4.py bin
 
 ####################################################################################
 
@@ -64,18 +65,18 @@ for f in masks/*subtraction_soft_mask.mrc ; do
   echo ''
 
   #Check if file already exists
-  if [[ -d subtracted/${file} ]] ; then 
-    echo "subtracted/${file} exists, skipping subtraction..."
+  if [[ -d Subtract/${file} ]] ; then
+    echo "Subtract/${file} exists, skipping subtraction..."
   else
     #Do signal subtraction via relion_project
     echo ""
-    echo "Creating directory for subtracted particles: subtracted/${file}"
-    mkdir -p subtracted/${file}
+    echo "Creating directory for subtracted particles: Subtract/${file}"
+    mkdir -p Subtract/${file}
     echo ""
-    echo ">>> relion_project --subtract_exp --i $map --mask $f --ang $starin --o subtracted/${file}/subtracted --ctf --angpix $angpix"
-    relion_project --subtract_exp --i $map --mask $f --ang $starin --o subtracted/${file}/subtracted --ctf --angpix $angpix
+    echo ">>> relion_project --subtract_exp --i $map --mask $f --ang $starin --o Subtract/${file}/subtracted --ctf --angpix $angpix"
+    relion_project --subtract_exp --i $map --mask $f --ang $starin --o Subtract/${file}/subtracted --ctf --angpix $angpix
     echo ""
-    echo "Created partial signal subtracted particles: subtracted/${file}/subtracted"
+    echo "Created partial signal subtracted particles: Subtract/${file}/subtracted"
     echo ''
   fi
 

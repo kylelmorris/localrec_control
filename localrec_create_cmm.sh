@@ -2,16 +2,15 @@
 #
 
 ####################################################################################
-#User VARIABLES
-#export LOCALREC_SCRIPTS='/Users/lfsmbe/Dropbox/Scripts/github/localrec_control/bin'
-#export CHIMERA_EXE='/Applications/Science/Chimera.app/Contents/MacOS/chimera'
+# Variables
+exe=$0
+path=$(which ${0})
 
-#export LOCALREC_SCRIPTS='/home/kmorris/Dropbox/Scripts/github/localrec_control/bin'
-#export CHIMERA_EXE='/usr/bin/chimera'
+ext=$(echo ${path##*.})
+name=$(basename $path .${ext})
+dir=$(dirname $path)
 
-#export LOCALREC_SCRIPTS=$(which localrec_create_masks.sh | sed 's/\ /\\ /g' | sed 's/(/\\(/g' | sed 's/)/\\)/g' | sed 's/\/localrec_create_masks.sh//g')
-#export LOCALREC_SCRIPTS=$(which localrec_create_masks.sh | sed 's/\/localrec_create_masks.sh//g')
-export LOCALREC_SCRIPTS=~/Dropbox/Scripts/github/localrec_control
+export LOCALREC_SCRIPTS=${dir}
 export CHIMERA_EXE=$(which chimera)
 
 ####################################################################################
@@ -40,6 +39,8 @@ echo 'Chimera executable: '${CHIMERA_EXE}
 echo ''
 echo 'If your directory structure and files are in place, press [Enter] key to continue...'
 echo 'Note, existing cmm_marker folders will be deleted'
+echo ''
+echo 'Hit Enter to continue or ctrl-c to quit...'
 read p
 echo ''
 
@@ -47,21 +48,29 @@ echo ''
 echo 'Using UCSF Chimera to create cmm marker vectors describing subparticle locations'
 echo ''
 
-scp -r bin/chimera_localrec_make_cmm.py .
+ln -s bin/chimera_localrec_make_cmm.py .
 ${CHIMERA_EXE} chimera_localrec_make_cmm.py
 
 #Find out the average length to the cmm marker
 echo "Average distance between centre of map and centre of PDB, i.e. cmm marker distance is:"
 #cat cmm_markers/*log | awk '{print $11}' | sed '/^$/d' | awk -F : '{sum+=$1} END {print "AVG=",sum/NR}'
-stats=$(cat cmm_markers/*log | awk '{print $11}' | sed '/^$/d' | awk -F ', '  '{   sum=sum+$1 ; sumX2+=(($1)^2)} END { printf "Average: %f. Standard Deviation: %f \n", sum/NR, sqrt(sumX2/(NR) - ((sum/NR)^2) )}')
+stats=$(cat cmm_markers/*log | grep "minimum distance" | awk '{print $8'} | sed '/^$/d' | awk -F ', '  '{   sum=sum+$1 ; sumX2+=(($1)^2)} END { printf "Average: %f. Standard Deviation: %f \n", sum/NR, sqrt(sumX2/(NR) - ((sum/NR)^2) )}')
 echo ''
 echo $stats
 echo "Average distance between centre of map and centre of PDB, i.e. cmm marker distance is:" > cmm_markers/marker_distance_stats.log
 echo $stats >> cmm_markers/marker_distance_stats.log
 echo 'See log files for individual measurements...'
 
+echo ''
+echo 'Inspect the markers in chimera!'
+echo 'Yellow is centre and blue the subparticle'
+echo ''
+
 #Make PDB copy
 scp -r PDB cmm_markers/PDB
+#Tidy up the logs
+mkdir -p cmm_markers/logs
+mv cmm_markers/*log cmm_markers/logs
 
 echo ''
 echo 'Done!'
