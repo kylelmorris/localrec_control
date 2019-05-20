@@ -141,8 +141,8 @@ while [[ $i -lt $j ]] ; do
     echo "+++ relion_reconstruct --i ${ptcldir}/localrec_${project}_${i}.star --o ${ptcldir}/localrec_${project}_${i}.mrc --angpix $apix --sym C1 --maxres 8 ${ctf}"
     relion_reconstruct --i ${ptcldir}/localrec_${project}_${i}.star --o ${ptcldir}/localrec_${project}_${i}.mrc --angpix $apix --sym C1 --maxres 8 ${ctf}
     echo ""
-    echo "+++ relion_image_handler --angpix $apix --lowpass $res --i ${ptcldir}/localrec_${project}_${i}.mrc"
-    relion_image_handler --angpix $apix --lowpass $res --i ${ptcldir}/localrec_${project}_${i}.mrc
+    echo "+++ relion_image_handler --angpix $apix --lowpass $res --i ${ptcldir}/localrec_${project}_${i}.mrc --o ${ptcldir}/localrec_${project}_${i}_LP${res}.mrc"
+    relion_image_handler --angpix $apix --lowpass $res --i ${ptcldir}/localrec_${project}_${i}.mrc --o ${ptcldir}/localrec_${project}_${i}_LP${res}.mrc
     echo ""
     echo "${ptcldir} localrec_vol_${i}: completed reconstruction: $(timestamp)" >> .localrec_vol_progress
   fi
