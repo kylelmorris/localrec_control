@@ -19,6 +19,8 @@ if [[ -f ./.user_input ]] ; then
   project=$(cat .user_input | grep lrProject | awk '{print $2}')
   ptcldir=$(cat .user_input | grep lrPtcldir | awk '{print $2}')
   maskdir=$(cat .user_input | grep lrMaskdir | awk '{print $2}')
+  res=$(cat .user_input | grep lrResolution | awk '{print $2}')
+  ctf=$(cat .user_input | grep lrCtf | awk '{print $2}')
   echo "Press Enter to continue or ctrl-c to quit and delete .user_input"
   read p
 else
@@ -51,6 +53,12 @@ else
   echo "Mask location, leave empty for no partial singla subtraction"
   read maskdir
   echo "lrMaskdir: ${maskdir}" >> .user_input
+  echo "Original reconstruction resolution (for lowpass filtering subparticle volumes)"
+  read res
+  echo "lrResolution: ${res}" >> .user_input
+  echo "CTF correction behaviour for subparticle volumes, provide --ctf or blank"
+  read ctf
+  echo "lrCtf: ${ctf}" >> .user_input
 fi
 
 #start at subparticle number
