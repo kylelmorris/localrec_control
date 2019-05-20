@@ -163,7 +163,7 @@ while [ $i -lt $j ] ; do
 
   #Get distance to subparticle from cmm_marker log file
   if [[ $autolength == 1 ]] ; then
-    length=$(cat cmm_markers/marker_${i}_distance.log | awk '{print $11}' | sed -n 1p)
+    length=$(cat cmm_markers/logs/marker_${i}_distance.log | awk '{print $11}' | sed -n 1p)
     echo ""
     echo "Distance is set to auto, reading distance from cmm log file..."
     echo "Distance to subparticle, length is ${length} for marker_${i}"
@@ -178,15 +178,15 @@ while [ $i -lt $j ] ; do
       #Do subparticle extraction without signal subtraction
       echo "Running subparticle extraction without signal subraction"
       echo ""
-      echo "scipion run relion_localized_reconstruction.py --prepare_particles --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}"
-      scipion run relion_localized_reconstruction.py --prepare_particles --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}
+      echo "scipion run relion_localized_reconstruction.py --prepare_particles --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/logs/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}"
+      scipion run relion_localized_reconstruction.py --prepare_particles --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/logs/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}
 
     else
       echo "Running subparticle extraction with signal subraction"
       echo ""
       #Do subparticle extraction with signal subtraction
-      echo "scipion run relion_localized_reconstruction.py --prepare_particles --masked_map ${maskdir}/mask${i}_subtraction_soft.mrc  --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}"
-      scipion run relion_localized_reconstruction.py --prepare_particles --masked_map ${maskdir}/mask${i}_subtraction_soft.mrc  --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}
+      echo "scipion run relion_localized_reconstruction.py --prepare_particles --masked_map ${maskdir}/mask${i}_subtraction_soft.mrc  --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/logs/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}"
+      scipion run relion_localized_reconstruction.py --prepare_particles --masked_map ${maskdir}/mask${i}_subtraction_soft.mrc  --create_subparticles --align_subparticles --extract_subparticles --sym C1 --cmm cmm_markers/logs/marker_${i}.cmm --angpix ${apix} --particle_size ${box} --length ${length} --subparticle_size ${newbox} --output ${ptcldir}/localrec_${project}_${i} ${star}
     fi
     echo "${ptcldir} localrec_subparticles_${i}: completed subparticle extraction: $(timestamp)" >> .localrec_progress
   fi
