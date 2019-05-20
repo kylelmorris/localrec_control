@@ -7,11 +7,9 @@ subptcli=$1
 if [[ -f ./.user_input ]] ; then
   echo ""
   echo "Previous user input found."
-  echo "Press Enter to continue or ctrl-c to quit and delete .user_input"
   echo ""
   cat ./.user_input
   echo ""
-  read p
   star=$(cat .user_input | grep star | awk '{print $2}')
   subptclno=$(cat .user_input | grep subptclno | awk '{print $2}')
   apix=$(cat .user_input | grep apix | awk '{print $2}')
@@ -21,6 +19,8 @@ if [[ -f ./.user_input ]] ; then
   project=$(cat .user_input | grep project | awk '{print $2}')
   ptcldir=$(cat .user_input | grep ptcldir | awk '{print $2}')
   maskdir=$(cat .user_input | grep maskdir | awk '{print $2}')
+  echo "Press Enter to continue or ctrl-c to quit and delete .user_input"
+  read p
 else
   echo "LocalRec parameters" > .user_input
   echo "Data star file which points to your whole particle stacks. i.e. ./star/run_data.star"
@@ -93,6 +93,7 @@ else
   echo 'Relion installation:'
   which relion
   echo 'Found 1.4 in path, appears to be Relion-1.4'
+  echo 'Looks good, continuing...'
 fi
 
 #Important info
