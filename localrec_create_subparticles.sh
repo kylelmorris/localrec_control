@@ -11,6 +11,7 @@ if [[ -f ./.user_input ]] ; then
   echo ""
   cat ./.user_input
   echo ""
+  read p
   star=$(cat .user_input | grep star | awk '{print $2}')
   subptclno=$(cat .user_input | grep subptclno | awk '{print $2}')
   apix=$(cat .user_input | grep apix | awk '{print $2}')
@@ -78,15 +79,21 @@ else
   echo "Sub-particle length is set manually to ${length}..."
 fi
 
-## Localrec particle extraction requires relion1.4
-echo "+++ source_relion1.4"
-echo ""
-
-export PATH=${APP_HOME}/relion-1.4/bin:$PATH && export LD_LIBRARY_PATH=${APP_HOME}/relion-1.4/lib:$LD_LIBRARY_PATH
-
-echo "+++ which relion"
-which relion
-echo ""
+## Check for relion1.4
+command -v relion >/dev/null 2>&1 || { echo >&2 "Relion does not appear to be installed or sourced..."; exit 1; }
+exe=$(which relion | grep 1.4)
+if [[ -z ${exe} ]]; then
+  echo 'Relion installation:'
+  which relion
+  echo ''
+  echo 'Path does not contain 1.4, are you sure this is Relion-1.4?'
+  echo 'Press Enter to continue or ctrl-c to quit and fix your Relion version'
+  read p
+else
+  echo 'Relion installation:'
+  which relion
+  echo 'Found 1.4 in path, appears to be Relion-1.4'
+fi
 
 #Important info
 echo ""
