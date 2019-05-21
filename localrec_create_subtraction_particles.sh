@@ -2,16 +2,18 @@
 #
 
 ####################################################################################
-#User VARIABLES
-#export LOCALREC_SCRIPTS='/Users/lfsmbe/Dropbox/Scripts/github/localrec_control/bin'
-#export CHIMERA_EXE='/Applications/Science/Chimera.app/Contents/MacOS/chimera'
+# Variables
+exe=$0
+path=$(which ${0})
+# Program path, name and extension
+ext=$(echo ${path##*.})
+name=$(basename $path .${ext})
+dir=$(dirname $path)
+# Program paths
+export LOCALREC_SCRIPTS=${dir}
+export CHIMERA_EXE=$(which chimera)
 
-#export LOCALREC_SCRIPTS='/home/kmorris/Dropbox/Scripts/github/localrec_control/bin'
-#export CHIMERA_EXE='/usr/bin/chimera'
-
-#export LOCALREC_SCRIPTS=$(which localrec_create_masks.sh | sed 's/\ /\\ /g' | sed 's/(/\\(/g' | sed 's/)/\\)/g' | sed 's/\/localrec_create_masks.sh//g')
-#export LOCALREC_SCRIPTS=$(which localrec_create_masks.sh | sed 's/\/localrec_create_masks.sh//g')
-export LOCALREC_SCRIPTS=~/Dropbox/Scripts/github/localrec_control
+####################################################################################
 
 starin=$1
 map=$2

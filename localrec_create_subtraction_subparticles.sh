@@ -3,25 +3,63 @@
 
 subptcli=$1
 
-# The directory containing data star file which points to your whole subtracted particle stacks
-star=Subtract/masks
-# The number of sub-particles you are extracting i.e. number of masks or cmm vectors
-subptclno=28
-# The pixel size the data is at
-apix=1.705
-# The original particle box size
-box=750
-# Distance from centre of whole particle to subparticle in Angstroms i.e. average cmm marker length
-# Set to auto and the distance will be pulled from the cmm marker marker log file in ./cmm_markers
-length=auto
-# The size of the box in which sub-particles will be extracted
-newbox=256
-# The name that will be appended to all sub-particle extractions
-project=CHC_LMB_all_localrec_3393ptcl
-# The directory name used for the extracted sub-particles
-ptcldir=Particles_localrec_cor2_256px_3393ptcl_nopflip_subtracted
-# mask location, leave empty for no partial singla subtraction
-maskdir=
+# Get user variables
+if [[ -f ./.user_input ]] ; then
+  echo ""
+  echo "Previous user input found."
+  echo ""
+  cat ./.user_input
+  echo ""
+  star=$(cat .user_input | grep lrStar | awk '{print $2}')
+  subptclno=$(cat .user_input | grep lrSubptclno | awk '{print $2}')
+  apix=$(cat .user_input | grep lrApix | awk '{print $2}')
+  box=$(cat .user_input | grep lrBox | awk '{print $2}')
+  length=$(cat .user_input | grep lrLength | awk '{print $2}')
+  newbox=$(cat .user_input | grep lrNewbox | awk '{print $2}')
+  project=$(cat .user_input | grep lrProject | awk '{print $2}')
+  ptcldir=$(cat .user_input | grep lrPtcldir | awk '{print $2}')
+  maskdir=$(cat .user_input | grep lrMaskdir | awk '{print $2}')
+  res=$(cat .user_input | grep lrResolution | awk '{print $2}')
+  ctf=$(cat .user_input | grep lrCtf | awk '{print $2}')
+  echo "Press Enter to continue or ctrl-c to quit and delete .user_input"
+  read p
+else
+  echo "LocalRec parameters" > .user_input
+  echo "Data star file which points to your whole particle stacks. i.e. ./star/run_data.star"
+  read star
+  echo "lrStar: ${star}" >> .user_input
+  echo "The number of sub-particles you are extracting i.e. number of masks or cmm vectors"
+  read subptclno
+  echo "lrSubptclno: ${subptclno}" >> .user_input
+  echo "The pixel size of the data"
+  read apix
+  echo "lrApix: ${apix}" >> .user_input
+  echo "Original particle box size (px)"
+  read box
+  echo "lrBox: ${box}" >> .user_input
+  echo "Distance from centre of whole particle to subparticle in Angstroms i.e. average cmm marker length"
+  echo "Can set to auto"
+  read length
+  echo "lrLength: ${length}" >> .user_input
+  echo "The size of the box in which sub-particles will be extracted (px)"
+  read newbox
+  echo "lrNewbox: ${newbox}" >> .user_input
+  echo "The name that will be appended to all sub-particle extractions"
+  read project
+  echo "lrProject: ${project}" >> .user_input
+  echo "The directory name used for the extracted sub-particles"
+  read ptcldir
+  echo "lrPtcldir: ${ptcldir}" >> .user_input
+  echo "Mask location, leave empty for no partial singla subtraction"
+  read maskdir
+  echo "lrMaskdir: ${maskdir}" >> .user_input
+  echo "Original reconstruction resolution (for lowpass filtering subparticle volumes)"
+  read res
+  echo "lrResolution: ${res}" >> .user_input
+  echo "CTF correction behaviour for subparticle volumes, provide --ctf or blank"
+  read ctf
+  echo "lrCtf: ${ctf}" >> .user_input
+fi
 
 #start at subparticle number
 if [ -z $1 ] ; then

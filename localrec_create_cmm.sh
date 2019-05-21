@@ -5,15 +5,16 @@
 # Variables
 exe=$0
 path=$(which ${0})
-
+# Program path, name and extension
 ext=$(echo ${path##*.})
 name=$(basename $path .${ext})
 dir=$(dirname $path)
-
+# Program paths
 export LOCALREC_SCRIPTS=${dir}
 export CHIMERA_EXE=$(which chimera)
 
 ####################################################################################
+
 # Get organised
 rm -rf cmm_markers
 rm -rf bin
