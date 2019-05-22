@@ -71,12 +71,12 @@ fi
 #Inform that cmm_marker lengths will be pulled from log files
 if [[ $length == auto ]] ; then
   echo "Sub-particle length is set to auto..."
-  echo "Subparticle length parameter will be pulled from ./cmm_markers/*log files"
-  if [[ -f ./cmm_markers/marker_distance_stats.log ]] ; then
+  echo "Subparticle length parameter will be pulled from ./cmm_markers/logs/*log files"
+  if [[ -f ./cmm_markers/logs/marker_distance_stats.log ]] ; then
     echo ""
     echo "marker_distance_stats.log exists, proceeding"
     echo ""
-    cat ./cmm_markers/marker_distance_stats.log
+    cat ./cmm_markers/logs/marker_distance_stats.log
     echo ""
   else
     echo ""
@@ -87,15 +87,22 @@ else
   echo "Sub-particle length is set manually to ${length}..."
 fi
 
-## Localrec particle extraction requires relion1.4
-echo "+++ source_relion1.4"
-echo ""
-
-export PATH=${APP_HOME}/relion-1.4/bin:$PATH && export LD_LIBRARY_PATH=${APP_HOME}/relion-1.4/lib:$LD_LIBRARY_PATH
-
-echo "+++ which relion"
-which relion
-echo ""
+## Check for relion1.4
+command -v relion >/dev/null 2>&1 || { echo >&2 "Relion does not appear to be installed or sourced..."; exit 1; }
+exe=$(which relion | grep 1.4)
+if [[ -z ${exe} ]]; then
+  echo 'Relion installation:'
+  which relion
+  echo ''
+  echo 'Path does not contain 1.4, are you sure this is Relion-1.4?'
+  echo 'Press Enter to continue or ctrl-c to quit and fix your Relion version'
+  read p
+else
+  echo 'Relion installation:'
+  which relion
+  echo 'Found 1.4 in path, appears to be Relion-1.4'
+  echo 'Looks good, continuing...'
+fi
 
 #Important info
 echo ""
@@ -164,7 +171,7 @@ while [ $i -lt $j ] ; do
 
   #Get distance to subparticle from cmm_marker log file
   if [[ $autolength == 1 ]] ; then
-    length=$(cat cmm_markers/marker_${i}_distance.log | awk '{print $11}' | sed -n 1p)
+    length=$(cat cmm_markers/logs/marker_${i}_distance.log | awk '{print $11}' | sed -n 1p)
     echo ""
     echo "Distance is set to auto, reading distance from cmm log file..."
     echo "Distance to subparticle, length is ${length} for marker_${i}"
