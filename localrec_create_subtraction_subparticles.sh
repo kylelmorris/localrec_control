@@ -200,7 +200,8 @@ while [ $i -lt $j ] ; do
     cd Subtract/masks/mask${i}
     python $LOCALREC_SCRIPTS/bin/relion_star_2_to_1.4.py subtracted.mrcs
     substar=Subtract/masks/mask${i}/subtracted_rln1.4.star
-
+    cd $cwd
+    
     if [[ -z $maskdir ]] ; then
       #Do subparticle extraction without signal subtraction
       echo "Running subparticle extraction without signal subraction"
