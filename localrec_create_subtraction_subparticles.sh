@@ -182,7 +182,7 @@ while [ $i -lt $j ] ; do
     echo $localrec_progress
     echo "Skipping localrec subparticle extraction ${ptcldir} ${i}, already processed"
   else
-    substar=${star}/mask${i}/subtracted.star
+    substar=Subtract/masks/mask${i}/subtracted.star
     if [[ -z $maskdir ]] ; then
       #Do subparticle extraction without signal subtraction
       echo "Running subparticle extraction without signal subraction"
