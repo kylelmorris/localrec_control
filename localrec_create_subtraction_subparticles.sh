@@ -1,7 +1,20 @@
 #!/bin/bash
 #
 
+####################################################################################
+# Variables
+exe=$0
+path=$(which ${0})
+# Program path, name and extension
+ext=$(echo ${path##*.})
+name=$(basename $path .${ext})
+dir=$(dirname $path)
+# Program paths
+export LOCALREC_SCRIPTS=${dir}
+export CHIMERA_EXE=$(which chimera)
+
 subptcli=$1
+####################################################################################
 
 # Get user variables
 if [[ -f ./.user_input ]] ; then
@@ -182,7 +195,12 @@ while [ $i -lt $j ] ; do
     echo $localrec_progress
     echo "Skipping localrec subparticle extraction ${ptcldir} ${i}, already processed"
   else
-    substar=Subtract/masks/mask${i}/subtracted.star
+    # Check that the subtracted.star file is Relion-1.4 formatted...
+    cwd=$(pwd)
+    cd Subtract/masks/mask${i}
+    python $LOCALREC_SCRIPTS/bin/relion_star_2_to_1.4.py subtracted.mrcs
+    substar=Subtract/masks/mask${i}/subtracted_rln1.4.star
+
     if [[ -z $maskdir ]] ; then
       #Do subparticle extraction without signal subtraction
       echo "Running subparticle extraction without signal subraction"
