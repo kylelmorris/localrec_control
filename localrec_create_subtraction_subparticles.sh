@@ -198,7 +198,7 @@ while [ $i -lt $j ] ; do
     # Check that the subtracted.star file is Relion-1.4 formatted...
     cwd=$(pwd)
     cd Subtract/masks/mask${i}
-    python $LOCALREC_SCRIPTS/bin/relion_star_2_to_1.4.py subtracted.mrcs
+    python $LOCALREC_SCRIPTS/bin/relion_star_2_to_1.4.py subtracted.star
     substar=Subtract/masks/mask${i}/subtracted_rln1.4.star
     cd $cwd
 
