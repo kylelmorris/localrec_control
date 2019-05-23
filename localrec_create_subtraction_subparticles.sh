@@ -184,7 +184,7 @@ while [ $i -lt $j ] ; do
 
   #Get distance to subparticle from cmm_marker log file
   if [[ $autolength == 1 ]] ; then
-    length=$(cat cmm_markers/logs/marker_${i}_distance.log | awk '{print $11}' | sed -n 1p)
+    length=$(cat cmm_markers/logs/marker_${i}_distance.log | grep "minimum distance" | awk '{print $8}')
     echo ""
     echo "Distance is set to auto, reading distance from cmm log file..."
     echo "Distance to subparticle, length is ${length} for marker_${i}"
@@ -201,7 +201,7 @@ while [ $i -lt $j ] ; do
     python $LOCALREC_SCRIPTS/bin/relion_star_2_to_1.4.py subtracted.mrcs
     substar=Subtract/masks/mask${i}/subtracted_rln1.4.star
     cd $cwd
-    
+
     if [[ -z $maskdir ]] ; then
       #Do subparticle extraction without signal subtraction
       echo "Running subparticle extraction without signal subraction"
