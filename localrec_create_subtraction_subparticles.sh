@@ -1,4 +1,4 @@
-#!/bin/bash
+ #!/bin/bash
 #
 
 ####################################################################################
@@ -249,9 +249,9 @@ echo ""
 echo ""
 cd $ptcldir
 starlist=$(echo *${project}*star)
-echo "relion_star_combine --i \" ${starlist} \" --o localrec_${project}_all.star" > localrec_join_subparticle_star.sh
+echo "relion_star_handler --combine \" ${starlist} \" --o localrec_${project}_all.star" > localrec_join_subparticle_star.sh
 cd ..
-echo "With Relion-2.1 and greater sourced execute the localrec_join_subparticle_star.sh to create a combined subparticle star file..."
+echo "With Relion-3.0 or greater sourced execute the localrec_join_subparticle_star.sh to create a combined subparticle star file..."
 echo ""
 echo "Definitely done.."
 echo ""
